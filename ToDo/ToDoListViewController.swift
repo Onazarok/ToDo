@@ -10,7 +10,7 @@ import UIKit
 
 class ToDoListViewController : UITableViewController {
     
-    let ItemArray = ["Get a million", "roll with niggas", "play football"]
+    var itemArray = ["Get a million", "roll with niggas", "play football"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class ToDoListViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return ItemArray.count
+        return itemArray.count
         
     }
     
@@ -29,7 +29,7 @@ class ToDoListViewController : UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
         
-        cell.textLabel?.text = ItemArray[indexPath.row]
+        cell.textLabel?.text = itemArray[indexPath.row]
         
         
         
@@ -41,7 +41,7 @@ class ToDoListViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        print(ItemArray[indexPath.row])
+        print(itemArray[indexPath.row])
         
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -53,6 +53,36 @@ class ToDoListViewController : UITableViewController {
         
     }
     
+    //MARK - Add New Items
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add new  Item", message: nil, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+            
+          self.itemArray.append(textField.text!)
+            
+            self.tableView.reloadData()
+            
+        }
+        
+        alert.addAction(action)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alert.addTextField(configurationHandler: { alertTextField in
+            textField.placeholder = "Input your ToDo here..."
+            textField = alertTextField
+        })
+        
+
+        
+        self.present(alert, animated: true)
+        
+    }
     
     
     
